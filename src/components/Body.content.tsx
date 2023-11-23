@@ -1,10 +1,12 @@
 import { Button, XButton } from "./CustomButtons";
 import { ContentBodyIcon, ContentInnerIcons } from "../assets/icons";
+import { useState } from "react";
 
 export const ContentBody = () => {
   return (
     <div className="h-[100%] w-[100%] flex flex-col border-0 border-solid gap-4 lg:gap-6">
       <ContentRouterHeader />
+      {/* Videos Route */}
       <div className="h-[calc(100%-60px)] w-[100%] flex flex-col-reverse lg:flex-row gap-4 lg:gap-2">
         <ContentController />
         <ContentPlayer />
@@ -14,15 +16,23 @@ export const ContentBody = () => {
   );
 }
 
-const ContentRouterHeader = () => (
-  <div aria-label="options-router"
-    className="w-[100%] h-[60px] flex items-center justify-center bg-gray-200 rounded-[32px] p-1 lg:gap-2">
-    {ContentBodyIcon.map((d, i) => (
-      <Button key={i} label={d.label} Icon={d.icon} active={i == 2 && true} />
-    ))}
-    <Button props="hidden lg:flex" key={"s23"} label={''} active={false} />
-  </div>
-)
+const ContentRouterHeader = () => {
+  const [activeIdx, setActiveIdx] = useState(2);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setActiveIdx(Number(e.currentTarget.value));
+  }
+
+  return (
+    <div aria-label="options-router"
+      className="w-[100%] h-[60px] flex items-center justify-center bg-gray-200 rounded-[32px] p-1 lg:gap-2">
+      {ContentBodyIcon.map((d, i) => (
+        <Button value={i} handleClick={handleClick} key={i} label={d.label} Icon={d.icon} active={i == activeIdx && true} />
+      ))}
+      <Button props="hidden lg:flex" key={"s23"} label={''} active={false} />
+    </div>
+  );
+}
 
 const ContentController = () => (
   <div aria-label="controller" className="w-[100%] lg:w-[20%] h-[50%] lg:h-[100%] flex flex-col items-center gap-6">
@@ -44,7 +54,7 @@ const ContentController = () => (
     </div>
     <div aria-label="actions" className="grid grid-cols-5 lg:grid-cols-3 gap-4">
       {ContentInnerIcons.map((d, i) => {
-        const bg = i == 4 ? 'bg-[rgba(57,130,159)] stroke-8 ' : 'bg-gray-100';
+        const bg = i == 4 ? 'bg-[rgba(57,130,159)]' : 'bg-gray-100';
         return (
           <div key={i} className="w-[100%] flex flex-col justify-center items-center">
             <XButton props={`w-[58px] ${bg} rounded-[18px]`} label={""} Icon={d.icon} active={i == 4 ? true : false} />

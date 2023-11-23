@@ -1,5 +1,5 @@
 import { IconBase } from 'react-icons';
-import { CompanyLogo, MenuButtons, MenuIcon, UserIcon } from '../assets/icons';
+import { CompanyLogo, MenuButtons, MenuIcon } from '../assets/icons';
 import { XButton } from './CustomButtons';
 
 export default function Sidebar() {
